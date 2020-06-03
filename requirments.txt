@@ -1,3 +1,4 @@
 py-trello
 vk_api
 psycopg2-binary
+schedule
