@@ -8,13 +8,18 @@
 
 ### Step 2) Install
 
-Run in your console,
+Run in your console:
 
 ```
+sudo apt update && sudo apt -y dist-upgrade
+sudo apt install -y git python3-venv
 git clone https://github.com/vahellame/trello-vk-bot.git
+cd trello-vk-bot
+python3 -m venv venv
+./venv/bin/pip install -r requirments.txt
 ```
 
-Run in your postgres console,
+Run in your postgres console:
 
 ```
 CREATE DATABASE trello_vk_bot;
@@ -30,20 +35,10 @@ trello_board varchar(512),
 trello_list varchar(512));
 ```
 
-- View and edit `config.py`.
-
-Install dependencies:
-
-```
-sudo apt update && sudo apt -y dist-upgrade
-cd trello-vk-bot
-python3 -m venv venv
-./venv/bin/pip install -r requirments.txt
-```
+View and edit `config.py`.
 
 ### Step 3) Running bot
 
 ```
 ./venv/bin/python main.py
 ```
-
