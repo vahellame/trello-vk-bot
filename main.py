@@ -303,23 +303,26 @@ def step_4(request):
 def daily_update():
     users = execute_sql("SELECT * FROM users", POSTGRES_CONNECTION_PARAMS)
     for user in users:
-        trello_client = trello.TrelloClient(api_key=user["trello_api_key"], token=user["trello_api_token"])
-        tboard_daily = fetch_tboards_by_name(trello_client, user["trello_board"])[0]
-        tlist_daily = fetch_tlists_by_name(tboard_daily, user["trello_list"])[0]
-        checklists_daily_dict = fetch_checklists_by_tlist(tlist_daily)
+        try:
+            trello_client = trello.TrelloClient(api_key=user["trello_api_key"], token=user["trello_api_token"])
+            tboard_daily = fetch_tboards_by_name(trello_client, user["trello_board"])[0]
+            tlist_daily = fetch_tlists_by_name(tboard_daily, user["trello_list"])[0]
+            checklists_daily_dict = fetch_checklists_by_tlist(tlist_daily)
 
-        percent_done_today = calculate_percent_done(checklists_daily_dict)
-        percent_done_total = (user["days"] * user["total_percent"] + percent_done_today) / (user["days"] + 1)
+            percent_done_today = calculate_percent_done(checklists_daily_dict)
+            percent_done_total = (user["days"] * user["total_percent"] + percent_done_today) / (user["days"] + 1)
 
-        message = "Выполненных задач за сегодня: " + str(percent_done_today) + "%\n" + \
-                  "В день выполняется в среднем: " + str(percent_done_total) + "%"
-        send_message(user["vk_id"],
-                     message=message)
+            message = "Выполненных задач за сегодня: " + str(percent_done_today) + "%\n" + \
+                      "В день выполняется в среднем: " + str(percent_done_total) + "%"
+            send_message(user["vk_id"],
+                         message=message)
 
-        execute_sql("UPDATE users SET days={}, total_percent={} WHERE vk_id={}".format(user["days"] + 1,
-                                                                                       percent_done_total,
-                                                                                       user["vk_id"]),
-                    POSTGRES_CONNECTION_PARAMS)
+            execute_sql("UPDATE users SET days={}, total_percent={} WHERE vk_id={}".format(user["days"] + 1,
+                                                                                           percent_done_total,
+                                                                                           user["vk_id"]),
+                        POSTGRES_CONNECTION_PARAMS)
+        except (trello.exceptions.Unauthorized, ValueError, IndexError)
+            pass
 
 
 def shedule_update_loop():
