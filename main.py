@@ -8,6 +8,7 @@ import schedule
 import trello
 import urllib3
 import vk_api.vk_api
+import socket
 
 from contextlib import closing
 
