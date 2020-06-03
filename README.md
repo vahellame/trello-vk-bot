@@ -14,7 +14,8 @@ Run in your postgres console:
 CREATE DATABASE trello_vk_bot;
 \connect trello_vk_bot;
 CREATE TABLE users(
-id serial primary key, 
+id serial primary key,
+vk_id integer,
 trello_api_key varchar(32), 
 trello_api_token varchar(64), 
 step integer, 
