@@ -109,7 +109,11 @@ def calculate_percent_done(checklists_dict):
                 tasks_count_total += 1
                 if checklists_dict[card][checklist_name][task] == "complete":
                     tasks_count_completed += 1
-    percent_done = tasks_count_completed / tasks_count_total
+
+    try:
+        percent_done = tasks_count_completed / tasks_count_total
+    except ZeroDivisionError:
+        percent_done = 0
     percent_done = round(percent_done * 100)
     return percent_done
 
