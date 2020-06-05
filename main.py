@@ -321,7 +321,7 @@ def daily_update():
                                                                                            percent_done_total,
                                                                                            user["vk_id"]),
                         POSTGRES_CONNECTION_PARAMS)
-        except (trello.exceptions.Unauthorized, ValueError, IndexError):
+        except:
             pass
 
 
