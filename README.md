@@ -25,8 +25,6 @@ trello_board varchar(512),
 trello_list varchar(512));
 ```
 
-View and edit `config.py`.
-
 Run in your console:
 
 ```
@@ -34,6 +32,11 @@ sudo apt update && sudo apt -y dist-upgrade
 sudo apt install -y git python3-venv
 git clone https://github.com/vahellame/trello-vk-bot.git
 cd trello-vk-bot
+```
+
+View and edit `config.py`.
+
+```
 python3 -m venv venv
 ./venv/bin/pip install -U pip 
 ./venv/bin/pip install -r requirments.txt
